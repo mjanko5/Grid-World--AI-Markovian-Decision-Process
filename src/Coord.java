@@ -22,6 +22,4 @@ class Coord{
         this.y = y;
     }
 
-//    Coord(){}
-
 }

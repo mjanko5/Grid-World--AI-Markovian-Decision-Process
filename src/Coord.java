@@ -5,11 +5,11 @@
  * To God be the Glory
  */
 
-class Coord{
-
+//coordinate class
+class Coord {
     int x;
     int y;
-    int reward;
+    int reward; //used when scanning file
 
     Coord(int x, int y, int reward) {
         this.x = x;
@@ -21,5 +21,4 @@ class Coord{
         this.x = x;
         this.y = y;
     }
-
 }

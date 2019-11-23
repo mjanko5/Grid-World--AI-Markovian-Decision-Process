@@ -6,16 +6,14 @@
  */
 
 import java.util.ArrayList;
-public class Main {
 
+public class Main {
 
     public static void main(String[] args) {
         System.out.println("Starting Program.");
 
-        //new Environment
-        Environment Env = new Environment("mdp_input.txt");
-
-        MDP runMDP = new MDP(Env);  //run MDP
-        runMDP.valueIteration(Env);
+        Environment Env = new Environment("mdp_input.txt"); //parse new Environment from file
+        MDP mdp = new MDP(Env);      //init MDP
+        mdp.valueIteration(Env);     //run MDP on parsed Environment in the form of value iteration
     }
 }

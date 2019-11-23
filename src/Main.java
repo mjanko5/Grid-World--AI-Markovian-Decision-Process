@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Matt Jankowski
  * AI (CS 411) Hw 10
@@ -7,6 +5,7 @@ import java.util.ArrayList;
  * To God be the Glory
  */
 
+import java.util.ArrayList;
 public class Main {
 
 

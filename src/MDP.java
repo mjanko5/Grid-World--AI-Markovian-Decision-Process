@@ -29,50 +29,26 @@ public class MDP {
         float epsilon = Env.getEpsilon();
         float gamma = Env.getDiscountRate();
 
-
+        int iteration = 0;
         do {
             delta = 0;
 
             for (State state : Env.states) {
 
+                //update utilityGrid
+                Env.utilityGrid[state.getX()-1][state.getY()-1] = state.getNextUtility();
+
                 state.setUtility(state.getNextUtility());          //update utility
-                state.setNextUtility(bellmanEquation(state, Env)); //call Bellman Equation for every state (cell)
+                float nextUtility = bellmanEquation(state, Env);
+                state.setNextUtility(nextUtility); //call Bellman Equation for every state (cell)
                 updateDelta(state);
             }
-//            for ( int i = 1; i < Env.getWidth(); i++){
-//                for (int j = 1; j < Env.getHeight(); j++){
-//                    System.out.println();
-//                }
-//            }
-
-//            Collections.sort(users, new Comparator<User>() {
-//                @Override
-//                public int compare(User u1, User u2) {
-//                    return u1.getCreatedOn().compareTo(u2.getCreatedOn());
-//                }
-//            });
-
-
-//          // printout the iterations results...
-            int i = 1;
-            for (State S : Env.states){
-//                System.out.println(S.getX() + "," + S.getY());
-                System.out.print(S.getDescription());
-                if (Env.getHeight() == i){
-                    System.out.println();
-                    i = 0;
-                }
-
-                i++;
-            }
-
-
-//            System.out.println("delta: " + delta);
-//            System.out.println("eqn: " + epsilon * (1 - gamma) / gamma);
+            Env.printUtilities(iteration);
+            iteration++;
 
         } while (delta >= epsilon * (1 - gamma) / gamma);
 
-//        printout policy....
+        Env.printFinalPolicy();
 
     }
 
@@ -103,26 +79,26 @@ public class MDP {
 
         if (action == 'U'){
             if      ( match (next, current.moveUp(Env)) )    return 0.8f;
-            else if ( match (next, current.moveLeft()) )     return 0.1f;
+            else if ( match (next, current.moveLeft(Env)) )     return 0.1f;
             else if ( match (next, current.moveRight(Env)) ) return 0.1f;
             else                                             return 0.0f;
         }
         else if (action == 'D'){
-            if      ( match (next, current.moveDown()) )     return 0.8f;
-            else if ( match (next, current.moveLeft()) )     return 0.1f;
+            if      ( match (next, current.moveDown(Env)) )     return 0.8f;
+            else if ( match (next, current.moveLeft(Env)) )     return 0.1f;
             else if ( match (next, current.moveRight(Env)) ) return 0.1f;
             else                                             return 0.0f;
         }
         else if (action == 'L'){
-            if      ( match (next, current.moveLeft()) )     return 0.8f;
+            if      ( match (next, current.moveLeft(Env)) )     return 0.8f;
             else if ( match (next, current.moveUp(Env)) )    return 0.1f;
-            else if ( match (next, current.moveDown()) )     return 0.1f;
+            else if ( match (next, current.moveDown(Env)) )     return 0.1f;
             else                                             return 0.0f;
         }
         else if (action == 'R'){
             if      ( match (next, current.moveRight(Env)) ) return 0.8f;
             else if ( match (next, current.moveUp(Env)) )    return 0.1f;
-            else if ( match (next, current.moveDown()) )     return 0.1f;
+            else if ( match (next, current.moveDown(Env)) )     return 0.1f;
             else                                             return 0.0f;
         }
         else {

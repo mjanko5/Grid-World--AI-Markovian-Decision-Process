@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Environment {
     private int width;
     private int height;
-    private ArrayList<Coord> walls = new ArrayList<>();
+    public ArrayList<Coord> walls = new ArrayList<>();
     private ArrayList<Coord> terminals = new ArrayList<>();
     private float nonTerminalReward;
     private float[] transitionProbs = new float[4];
@@ -22,8 +22,9 @@ public class Environment {
     public Coord agentInit = new Coord(1,1);
     public ArrayList<State> states = new ArrayList<>();
     private String[][] descGrid;
-    private float[][] utilityGrid;
+    public float[][] utilityGrid;
     private float[][] nextUtilityGrid;
+    private double value = Math.random();
 
     public Environment(String pathName) {
         System.out.println("Initiating an empty environment...");
@@ -33,6 +34,7 @@ public class Environment {
         printEnvironment();
     }
 
+    //getters
     public float getEpsilon() {
         return epsilon;
     }
@@ -219,6 +221,41 @@ public class Environment {
             System.out.println();
         }
     }
+
+    //print the utilities of the Environment
+    public void printUtilities(int iteration){
+        System.out.println("iteration: " + iteration);
+        for (int i = height; i >= 1; i--) {
+            for (int j = 1; j <= width; j++) {
+
+                double utility = Math.floor(utilityGrid[j-1][i-1] * 1000) / 1000;
+                if ((utility == 55411)) System.out.print("-----\t"); //wall
+                else System.out.print(utility + "\t");               //utility
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public void printFinalPolicy(){
+        System.out.println("Final Policy:");
+        for (int i = height; i >= 1; i--) {
+            for (int j = 1; j <= width; j++) {
+
+                double number = value; //get from Env
+                char policy = number > 0.4661 ? (number > 0.6266 ? 'W' : 'E') : (number > 0.4194 ? 'S' : 'N');  //calculate
+                double utility = Math.floor(utilityGrid[j-1][i-1] * 1000) / 1000; //get utility from grid
+                if ((utility == 55411)) System.out.print("--\t"); //wall          //if wall
+                else if (descGrid[j-1][i-1].contains("+") || descGrid[j-1][i-1].contains("-")) { //if terminal
+                    System.out.print("T" + "\t");
+                }
+                else System.out.print(policy + "\t");               //else: policy
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
 
 
 }

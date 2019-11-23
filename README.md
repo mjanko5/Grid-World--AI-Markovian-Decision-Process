@@ -1,2 +1,2 @@
 # Grid-World--AI-Markovian-Decision-Process
-See writep.md for an overview.
+See writeup.md for an overview.
